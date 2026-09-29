@@ -1,6 +1,11 @@
-#include <iostream>
-using namespace std;
+#include "crow.h"
+
 int main() {
-    cout << "StoreMentor is running!" << std::endl;
-    return 0;
+    crow::SimpleApp app;
+
+    CROW_ROUTE(app, "/")([]() {
+        return "Hello from StoreMentor!";
+    });
+
+    app.port(18080).multithreaded().run();
 }
