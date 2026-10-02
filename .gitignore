@@ -1,5 +1,17 @@
-# Build files
+# Build directories
 build/
+build-msvc/
 
-# Executables
+# Executables and object files
 *.exe
+*.obj
+*.ilk
+*.pdb
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+storementor.db
+
+external/sqlite3/
