@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <memory>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 using namespace crow;
@@ -50,10 +52,49 @@ int main() {
     SimpleApp app;
 
     // Home route
+   
     CROW_ROUTE(app, "/")([]() {
-        return "Hello from StoreMentor!";
-    });
+        std::ifstream file("static/index.html");
 
+        if (!file.is_open()) {
+            return crow::response(404, "index.html not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res(buffer.str());
+        res.set_header("Content-Type", "text/html");
+        return res;
+    });
+    CROW_ROUTE(app, "/style.css")([]() {
+        std::ifstream file("static/style.css");
+
+        if (!file.is_open()) {
+            return crow::response(404, "style.css not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res(buffer.str());
+        res.set_header("Content-Type", "text/css");
+        return res;
+    });
+    CROW_ROUTE(app, "/script.js")([]() {
+        std::ifstream file("static/script.js");
+
+        if (!file.is_open()) {
+            return crow::response(404, "script.js not found");
+        }
+
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+
+        crow::response res(buffer.str());
+        res.set_header("Content-Type", "application/javascript");
+        return res;
+    });
     // API to retrieve merchants
     CROW_ROUTE(app, "/api/merchants")([]() {
         try {
