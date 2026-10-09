@@ -15,3 +15,9 @@ build-msvc/
 storementor.db
 
 external/sqlite3/
+
+# Next.js dashboard
+node_modules/
+.next/
+next-env.d.ts
+*.tsbuildinfo
